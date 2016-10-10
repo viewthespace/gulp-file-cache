@@ -1,5 +1,6 @@
 var fs = require('fs'),
-    through = require('through2');
+    through = require('through2'),
+    md5File = require('md5-file');
 
 /**
  * create a new FileCache instance
@@ -29,9 +30,9 @@ FileCache.prototype.cache = function() {
   function transform(file, enc, callback) {
 
     var path = file.path,
-        stat = file.stat && file.stat.mtime.getTime();
+        hash = md5File.sync(file.path);
 
-    if (path && stat) _this._cache[path] = stat;
+    if (path && hash) _this._cache[path] = hash;
     this.push(file);
     return callback();
   }
@@ -65,10 +66,10 @@ FileCache.prototype.filter = function() {
 
   return through.obj(function(file, enc, callback) {
     var cache = _this._cache[file.path],
-        stat = file.stat && file.stat.mtime.getTime();
+        hash = md5File.sync(file.path);
 
     // filter matching files
-    if (cache && stat && cache === stat) return callback();
+    if (cache && hash && cache === hash) return callback();
 
     this.push(file);
     return callback();
