@@ -1,6 +1,6 @@
 var fs = require('fs'),
     through = require('through2'),
-    md5 = requre('md5');
+    md5 = require('md5');
 
 /**
  * create a new FileCache instance
