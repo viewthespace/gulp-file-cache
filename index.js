@@ -30,7 +30,7 @@ FileCache.prototype.cache = function() {
   function transform(file, enc, callback) {
 
     var path = file.path,
-        hash = md5File.sync(file.path);
+        hash = md5(fs.readFileSync(path))
 
     if (path && hash) _this._cache[path] = hash;
     this.push(file);
@@ -66,7 +66,7 @@ FileCache.prototype.filter = function() {
 
   return through.obj(function(file, enc, callback) {
     var cache = _this._cache[file.path],
-        hash = md5File.sync(file.path);
+        hash = md5(fs.readFileSync(file.path))
 
     // filter matching files
     if (cache && hash && cache === hash) return callback();

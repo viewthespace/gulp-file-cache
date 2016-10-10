@@ -14,7 +14,7 @@
   "repository": "pgherveou/gulp-file-cache",
   "dependencies": {
     "gulp-util": "2.x",
-    "md5-file": "^3.1.1",
+    "md5": "^2.2.1",
     "through2": "0.x"
   },
   "devDependencies": {
